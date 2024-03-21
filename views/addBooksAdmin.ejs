@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Book</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Add Books</h1>
-    <form action="/admin/add" method="post">
-        Title : 
-        <br>
-        <input type="text" name="title">
-        <br>
-        Author : 
-        <br>
-        <input type="text" name="author">
-        <br>
-        Category : 
-        <br>
-        <input type="text" name="category">
-        <br>
-        Stock : 
-        <br>
-        <input type="number" name="stock">
-        <br>
-        Price : 
-        <br>
-        <input type="number" name="price">
-        <br>
-        Synopsis : 
-        <br>
-        <textarea name="synopsis" cols="30" rows="10"></textarea>
-        <br>
-        Book Cover :
-        <input type="text" name="imageUrl">
-        <br>
-        <input type="submit" value="Add Book">
+    <form action="/admin/add" method="post" enctype="multipart/form-data">
+      Title :
+      <br />
+      <input type="text" name="title" />
+      <br />
+      Author :
+      <br />
+      <input type="text" name="author" />
+      <br />
+      Category :
+      <br />
+      <input type="text" name="category" />
+      <br />
+      Stock :
+      <br />
+      <input type="number" name="stock" />
+      <br />
+      Price :
+      <br />
+      <input type="number" name="price" />
+      <br />
+      Synopsis :
+      <br />
+      <textarea name="synopsis" cols="30" rows="10"></textarea>
+      <br />
+      Book Cover :
+      <input type="file" name="imageUrl" />
+      <br />
+      <input type="submit" value="Add Book" />
     </form>
-</body>
+  </body>
 </html>

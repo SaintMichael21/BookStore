@@ -112,20 +112,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      imageUrl: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: "imageUrl tidak bisa kosong",
-          },
-          notNull: {
-            args: true,
-            msg: `imageUrl tidak bisa kosong`,
-          },
-        },
-      },
+      imageUrl: DataTypes.TEXT,
     },
     {
       sequelize,

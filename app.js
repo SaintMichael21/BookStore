@@ -7,6 +7,7 @@ const session = require("express-session");
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use("/Images", express.static("Images"));
 app.use(
   session({
     secret: "rahasia donggg", //harus ada
