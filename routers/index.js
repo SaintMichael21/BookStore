@@ -1,6 +1,16 @@
 const express = require("express");
+const path = require("path");
 const multer = require("multer");
-const images = multer({ dest: "public/images" });
+const storage = multer.diskStorage({
+  destination: (reg, file, cb) => {
+    cb(null, "Images");
+  },
+  filename: (reg, file, cb) => {
+    console.log(file);
+    cb(null, new Date().getTime() + "-" + file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
 const router = express.Router();
 const ControllerRegister = require("../controllers/controllerRegister.js");
 const ControllerLogin = require("../controllers/controllerLogin.js");
@@ -77,7 +87,7 @@ router.get("/admin/books", isAdmin, ControllerAdmin.renderBooksAdmin);
 router.get("/admin/books/add", isAdmin, ControllerAdmin.renderAddBooksAdmin);
 router.post(
   "/admin/add/",
-  images.single("imageUrl"),
+  upload.single("imageUrl"),
   ControllerAdmin.handleAddBooksAdmin
 );
 
@@ -97,7 +107,7 @@ router.get(
 router.post(
   "/admin/books/edit/:id",
   isAdmin,
-  images.single("imageUrl"),
+  upload.single("imageUrl"),
   ControllerAdmin.handleEditBooksAdmin
 );
 

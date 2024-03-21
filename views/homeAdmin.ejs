@@ -33,10 +33,10 @@
       <tr>
         <td><%= book.title %></td>
         <td><%= book.author %></td>
-        <td><img src="<%= book.imageUrl %>" /></td>
+        <td><img src="http://localhost:2999/<%= book.imageUrl %>" /></td>
         <td><%= book.category %></td>
         <td><%= book.synopsis %></td>
-        <td><%= book.price %></td>
+        <td><%= formatRupiah(book.price) %></td>
         <td><%= book.stock %></td>
         <td><%= book.status(book.stock) %></td>
         <td>
