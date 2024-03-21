@@ -15,9 +15,48 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
-      role: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Email tidak bisa kosong",
+          },
+          notNull: {
+            args: true,
+            msg: `Email tidak bisa kosong`,
+          },
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Password tidak bisa kosong",
+          },
+          notNull: {
+            args: true,
+            msg: `Password tidak bisa kosong`,
+          },
+        },
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Role tidak bisa kosong",
+          },
+          notNull: {
+            args: true,
+            msg: `Role tidak bisa kosong`,
+          },
+        },
+      },
     },
     {
       sequelize,
