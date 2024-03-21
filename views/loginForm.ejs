@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Form</title>
+    <style>
+      .wrapper-body {
+        background: #cecece;
+        width: 20%;
+        margin: 15% auto;
+        padding: 10px 40px 40px 40px;
+        border-radius: 20px;
+        text-align: center;
+      }
+      .wrapper-login {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+      .wrapper-label {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper-body">
+      <h1 style="text-align: center">Login Form</h1>
+      <% if (error) { %>
+      <p style="color: red; display: flex; justify-content: center">
+        <%= error %>
+      </p>
+      <% } %>
+      <div class="wrapper-login">
+        <form action="/login" method="post">
+          <div class="wrapper-label">
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="Input Email Here.." />
+          </div>
+          <div class="wrapper-label">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Input Password Here.."
+            />
+          </div>
+          <input type="submit" value="Login" />
+        </form>
+      </div>
+      <a href="/register"><button>Daftar</button></a>
+    </div>
+  </body>
+</html>

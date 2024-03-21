@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    <a href="/logout"><button>Logout</button></a>
+    <h1>List of Books</h1>
+    <form action="/admin/books" method="get">
+      <input type="text" placeholder="search books..." name="search" />
+      <input type="submit" value="Search" />
+    </form>
+    <br />
+    <br />
+    <a href="/admin/books/add"><button>Add Book</button></a>
+    <br />
+    <br />
+    <table border="3">
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Photo</th>
+        <th>Category</th>
+        <th>Synopsis</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      <% for(let book of books){%>
+      <tr>
+        <td><%= book.title %></td>
+        <td><%= book.author %></td>
+        <td><img src="<%= book.imageUrl %>" /></td>
+        <td><%= book.category %></td>
+        <td><%= book.synopsis %></td>
+        <td><%= book.price %></td>
+        <td><%= book.stock %></td>
+        <td><%= book.status(book.stock) %></td>
+        <td>
+          <a href="/admin/books/edit/<%= book.id %>"><button>Edit</button></a>
+          <a href="/admin/books/delete/<%= book.id %>"
+            ><button>Delete</button></a
+          >
+        </td>
+      </tr>
+      <% } %>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Book</title>
+</head>
+<body>
+    <h1>Edit Books</h1>
+    <form action="/admin/books/edit/<%= book.id %>" method="post">
+        Title : 
+        <br>
+        <input type="text" name="title" value="<%= book.title %>">
+        <br>
+        Author : 
+        <br>
+        <input type="text" name="author" value="<%= book.author %>">
+        <br>
+        Category : 
+        <br>
+        <input type="text" name="category" value="<%= book.category %>">
+        <br>
+        Stock : 
+        <br>
+        <input type="text" name="stock" value="<%= book.stock %>">
+        <br>
+        Price : 
+        <br>
+        <input type="number" name="price" value="<%= book.price %>">
+        <br>
+        Synopsis : 
+        <br>
+        <textarea name="synopsis" cols="30" rows="10"><%= book.synopsis %></textarea>
+        <br>
+        Book Cover :
+        <input type="text" name="imageUrl" value="<%= book.imageUrl %>">
+        <br>
+        <input type="submit" value="Edit Book">
+    </form>
+</body>
+</html>
