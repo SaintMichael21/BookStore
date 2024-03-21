@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction</title>
+  </head>
+  <body>
+    <div class="navbar-wrapper">
+      <a href="/"><button>Home</button></a>
+      <a href="/logout"><button>Logout</button></a>
+    </div>
+    <h1>Transaction</h1>
+    <table border="1">
+      <tr>
+        <th>Judul</th>
+        <th>Quantity</th>
+        <th>Date</th>
+      </tr>
+      <% for( let data of datas ) { %>
+      <tr>
+        <th><%= data.Book.title %></th>
+        <th><%= data.quantity %></th>
+        <th><%= data.createdAt.toISOString().slice(0,10) %></th>
+      </tr>
+      <% } %>
+    </table>
+  </body>
+</html>

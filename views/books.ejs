@@ -13,13 +13,42 @@
   <body>
     <div class="navbar-wrapper">
       <a href="/"><button>Home</button></a>
-      <a href="/transaction/<%= id %>"><button>Transaction</button></a>
+      <a href="/transaction/<%= idProfile%>"><button>Transaction</button></a>
       <% if (!id) { %>
       <div style="display: flex; justify-content: end">
         <a href="/login"><button>Login</button></a>
         <a href="/register"><button>Daftar</button></a>
       </div>
+      <% } else { %>
+      <div style="display: flex; justify-content: end">
+        <a href="/profiles/edit"><button>Profiles</button></a>
+        <a href="/logout"><button>Logout</button></a>
+      </div>
       <% } %>
+    </div>
+    <div class="table-wrapper">
+      <table border="1">
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Price</th>
+          <th>Action</th>
+        </tr>
+        <% for( let book of books ) { %>
+        <tr>
+          <td><%= book.title %></td>
+          <td><%= book.author %></td>
+          <td><%= book.category %></td>
+          <td><%= book.status(book.stock) %></td>
+          <td><%= formatRupiah(book.price) %></td>
+          <td>
+            <a href="/books/<%= book.id %>"><button>See Detail</button></a>
+          </td>
+        </tr>
+        <% } %>
+      </table>
     </div>
   </body>
 </html>
