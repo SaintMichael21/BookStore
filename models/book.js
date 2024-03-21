@@ -12,15 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       Book.hasMany(models.Transaction);
     }
 
-    static penjualan(id) {
-      return Book.findByPk(id, {
-        include: {
-          model: sequelize.models.Transaction,
-          attributes: [[fn("SUM", col("quantity")), "Total"]],
-        },
-      });
-    }
-
     status(stock) {
       if (stock === 0) {
         return `Unavailable`;
