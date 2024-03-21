@@ -8,21 +8,23 @@ const ControllerLogout = require("../controllers/controllerLogout.js");
 const ControllerBooks = require("../controllers/controllerBooks.js");
 const ControllerAdmin = require("../controllers/controllerAdmin.js");
 
-function isLogin(req, res, next) { // untuk ngecek ada yang login atau engga pas mau akses /register atau /login
+
+function isLogin(req, res, next) {
+  // untuk ngecek ada yang login atau engga pas mau akses /register atau /login
   if (!req.session.userId) {
-    next()
+    next();
   } else if (req.session.role === "admin") {
-    res.redirect(`/admin/books`);
-  }else if(req.session.role === "buyer") {
+    res.redirect(`/admin`);
+  } else if (req.session.role === "buyer") {
     res.redirect(`/`);
   }
 }
 
 function isAdmin(req, res, next) {
-  if (req.session.role !== "admin"){
-    res.redirect('/login')
+  if (req.session.role !== "admin") {
+    res.redirect("/login");
   } else {
-    next()
+    next();
   }
 }
 
@@ -45,15 +47,24 @@ router.get('/', (req, res) => {res.redirect("/books")})
 
 //books
 // //default
+//get profile
+router.get("/profiles", ControllerBooks.renderCreateProfile);
 
-// //get book - halaman buku
-// router.get("/books", ControllerBooks.renderBooks);
+//get profile
+router.post("/profiles", ControllerBooks.handleCreateProfile);
 
-// //get seeDetail - halaman detail buku - bisa beli
-// router.get("/books/:id", ControllerBooks.renderDetailBook);
+//get profile
+router.get("/profiles/edit", ControllerBooks.renderEditProfile);
 
-// //get transaction - halaman transaksi user - read doang - id user
-// router.get("/transaction/:id", ControllerBooks.renderTransactions);
+//get profile
+router.post("/profiles/edit/:id", ControllerBooks.handleEditProfile);
+
+//get seeDetail - halaman detail buku - bisa beli
+router.get("/books/:id", ControllerBooks.renderDetailBook);
+router.post("/books/:id", ControllerBooks.handleDetailBook);
+
+//get transaction - halaman transaksi user - read doang - id user
+router.get("/transaction/:id", ControllerBooks.renderTransactions);
 
 // Admin
 router.get("/admin/books", isAdmin, ControllerAdmin.renderBooksAdmin);
