@@ -3,6 +3,8 @@ const formatRupiah = require("../helpers/formatRupiah.js");
 const bcrypt = require("bcryptjs");
 const { Op } = require("sequelize");
 
-class ControllerBooks {}
+class ControllerBooks {
+    
+}
 
 module.exports = ControllerBooks;
