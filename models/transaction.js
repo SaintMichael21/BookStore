@@ -1,5 +1,5 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, fn, col } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Transaction extends Model {
     /**
@@ -11,6 +11,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Transaction.belongsTo(models.Profile);
       Transaction.belongsTo(models.Book);
+    }
+    static penjualan(BookId) {
+      return Transaction.findAll({
+        attributes: [[fn("COUNT", col("id")), "Total"]],
+        where: {
+          BookId,
+        },
+      });
     }
   }
   Transaction.init(

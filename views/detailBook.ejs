@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Book</title>
+  </head>
+  <body>
+    <div class="navbar-wrapper">
+      <a href="/"><button>Home</button></a>
+      <a href="/profiles/edit"><button>Profiles</button></a>
+      <a href="/logout"><button>Logout</button></a>
+    </div>
+    <h1>Title : <%=Book.title %></h1>
+    <div style="display: flex">
+      <div>
+        <img src="<%= Book.imageUrl %>" alt="Gambar" />
+      </div>
+      <div>
+        <p>Transaksi : <%= total %></p>
+        <p>Author : <%= Book.author %></p>
+        <p>Category : <%= Book.category %></p>
+        <p>Synopsis : <%= Book.synopsis %></p>
+        <p>Stock : <%= Book.stock %></p>
+        <p>Price : <%= Book.price %></p>
+        <form action="/books/<%= Book.id %>" method="post">
+          <label for="quantity">Quantity</label>
+          <input type="number" name="quantity" />
+          <input type="submit" value="Buy" />
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

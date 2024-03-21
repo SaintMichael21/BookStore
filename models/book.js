@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     static penjualan(id) {
       return Book.findByPk(id, {
         include: {
-          model: Transaction,
+          model: sequelize.models.Transaction,
           attributes: [[fn("SUM", col("quantity")), "Total"]],
         },
       });
