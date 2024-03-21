@@ -27,9 +27,9 @@ class ControllerLogin {
           req.session.userId = user.id; //set session di controller login
           req.session.role = user.role;
 
-          if (user.role === "admin") {
+          if(user.role === "admin"){
             res.redirect("/admin/books");
-          } else {
+          }else{
             res.redirect("/");
           }
         } else {
