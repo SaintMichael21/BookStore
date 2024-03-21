@@ -1,4 +1,6 @@
 const express = require("express");
+const multer = require("multer");
+const images = multer({ dest: "public/images" });
 const router = express.Router();
 const ControllerRegister = require("../controllers/controllerLogin.js");
 const ControllerLogin = require("../controllers/controllerLogin.js");
@@ -73,13 +75,21 @@ router.get("/admin", ControllerAdmin.renderBooksAdmin);
 
 //nambahin
 router.get("/admin/books", ControllerAdmin.renderAddBooksAdmin);
-router.post("/admin/books/:id", ControllerAdmin.handleAddBooksAdmin);
+router.post(
+  "/admin/books/:id",
+  images.single("imageUrl"),
+  ControllerAdmin.handleAddBooksAdmin
+);
 
 //delete
 router.get("/admin/books/delete/:id", ControllerAdmin.renderDeleteBooksAdmin);
 
 //update
 router.get("/admin/books/edit", ControllerAdmin.renderEditBooksAdmin);
-router.get("/admin/books/edit/:id", ControllerAdmin.handleEditBooksAdmin);
+router.post(
+  "/admin/books/edit/:id",
+  images.single("imageUrl"),
+  ControllerAdmin.handleEditBooksAdmin
+);
 
 module.exports = router;
