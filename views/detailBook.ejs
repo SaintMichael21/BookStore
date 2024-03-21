@@ -22,7 +22,7 @@
         <p>Category : <%= Book.category %></p>
         <p>Synopsis : <%= Book.synopsis %></p>
         <p>Stock : <%= Book.stock %></p>
-        <p>Price : <%= Book.price %></p>
+        <p>Price : <%= formatRupiah(Book.price) %></p>
         <form action="/books/<%= Book.id %>" method="post">
           <label for="quantity">Quantity</label>
           <input type="number" name="quantity" />

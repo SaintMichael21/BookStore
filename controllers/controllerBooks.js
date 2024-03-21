@@ -119,7 +119,7 @@ class ControllerBooks {
       let data = await Book.findByPk(id);
       let penjualan = await Transaction.penjualan(id);
       let total = penjualan[0].dataValues.Total;
-      res.render("detailBook", { Book: data, total });
+      res.render("detailBook", { Book: data, total, formatRupiah });
     } catch (error) {
       console.log(error);
       res.send(error);

@@ -8,7 +8,6 @@ const ControllerLogout = require("../controllers/controllerLogout.js");
 const ControllerBooks = require("../controllers/controllerBooks.js");
 const ControllerAdmin = require("../controllers/controllerAdmin.js");
 
-
 function isLogin(req, res, next) {
   // untuk ngecek ada yang login atau engga pas mau akses /register atau /login
   if (!req.session.userId) {
@@ -43,10 +42,13 @@ router.post("/login", isLogin, ControllerLogin.postLogin);
 //get logout
 router.get("/logout", ControllerLogout.logOut);
 
-router.get('/', (req, res) => {res.redirect("/books")})
+router.get("/", (req, res) => {
+  res.redirect("/books");
+});
 
 //books
-// //default
+//default
+router.get("/books", ControllerBooks.renderBooks);
 //get profile
 router.get("/profiles", ControllerBooks.renderCreateProfile);
 
@@ -80,10 +82,18 @@ router.post(
 );
 
 //delete
-router.get("/admin/books/delete/:id", isAdmin, ControllerAdmin.renderDeleteBooksAdmin);
+router.get(
+  "/admin/books/delete/:id",
+  isAdmin,
+  ControllerAdmin.renderDeleteBooksAdmin
+);
 
 // //update
-router.get("/admin/books/edit/:id", isAdmin, ControllerAdmin.renderEditBooksAdmin);
+router.get(
+  "/admin/books/edit/:id",
+  isAdmin,
+  ControllerAdmin.renderEditBooksAdmin
+);
 router.post(
   "/admin/books/edit/:id",
   isAdmin,
