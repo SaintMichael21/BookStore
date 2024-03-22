@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <style>
+      * {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="/logout"><button>Logout</button></a>
+    <h1 style="text-align: center">List of Books</h1>
+    <div style="display: flex; justify-content: center">
+      <form action="/admin/books" method="get">
+        <input
+          type="text"
+          placeholder="search books by titles..."
+          name="search"
+        />
+        <input type="submit" value="Search" />
+      </form>
+    </div>
+    <div style="text-align: center">
+      <a href="/admin/books/add"
+        ><button
+          style="
+            margin-top: 20px;
+            margin-bottom: 20px;
+            height: 20px;
+            width: 200px;
+            background: #cecece;
+            border-radius: 10px;
+          "
+        >
+          Add Book
+        </button></a
+      >
+    </div>
+    <div
+      style="
+        height: fit-content;
+        margin: 20px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      "
+    >
+      <% for(let book of books){%>
+
+      <div
+        style="
+          width: 45%;
+          display: flex;
+          flex-direction: column;
+          margin: 10px auto;
+          border: 1px solid grey;
+          border-radius: 10px;
+          padding: 10px;
+        "
+      >
+        <div style="display: flex; flex-direction: row">
+          <img src="http://localhost:2999/<%= book.imageUrl %>" />
+          <div style="margin: 30px auto">
+            <p>Title : <%= book.title %></p>
+            <p>Author : <%= book.author %></p>
+            <p>Category : <%= book.category %></p>
+            <p>Price : <%= formatRupiah(book.price) %></p>
+            <p>Stock : <%= book.stock %></p>
+            <% if (book.status(book.stock)==="Unavailable") { %>
+            <p style="color: red"><%= book.status(book.stock) %></p>
+            <% } else {%>
+            <p style="color: blue"><%= book.status(book.stock) %></p>
+            <%}%>
+          </div>
+        </div>
+        <div>
+          <p>Synopsis</p>
+          <p style="margin-left: 10px"><%= book.synopsis %></p>
+          <a href="/admin/books/edit/<%= book.id %>"
+            ><button style="background: greenyellow; border-radius: 10px">
+              Edit
+            </button></a
+          >
+          <a href="/admin/books/delete/<%= book.id %>"
+            ><button style="background: red; color: white; border-radius: 10px">
+              Delete
+            </button></a
+          >
+        </div>
+      </div>
+
+      <% } %>
+    </div>
+    <!-- <div style="display: flex; justify-content: center">
+      <table border="3" style="text-align: center; width: 94%">
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Photo</th>
+          <th>Category</th>
+          <th>Synopsis</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+        <% for(let book of books){%>
+        <tr>
+          <td><%= book.title %></td>
+          <td><%= book.author %></td>
+          <td><img src="http://localhost:2999/<%= book.imageUrl %>" /></td>
+          <td><%= book.category %></td>
+          <td><%= book.synopsis %></td>
+          <td><%= formatRupiah(book.price) %></td>
+          <td><%= book.stock %></td>
+          <% if (book.status(book.stock)==="Unavailable") { %>
+          <td style="color: red"><%= book.status(book.stock) %></td>
+          <% } else {%>
+          <td style="color: blue"><%= book.status(book.stock) %></td>
+          <%}%>
+          <td>
+            <a href="/admin/books/edit/<%= book.id %>"
+              ><button style="background: greenyellow; border-radius: 10px">
+                Edit
+              </button></a
+            >
+            <a href="/admin/books/delete/<%= book.id %>"
+              ><button
+                style="background: red; color: white; border-radius: 10px"
+              >
+                Delete
+              </button></a
+            >
+          </td>
+        </tr>
+        <% } %>
+      </table>
+    </div> -->
+  </body>
+</html>

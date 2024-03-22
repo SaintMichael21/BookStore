@@ -12,15 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       Book.hasMany(models.Transaction);
     }
 
-    static penjualan(id) {
-      return Book.findByPk(id, {
-        include: {
-          model: Transaction,
-          attributes: [[fn("SUM", col("quantity")), "Total"]],
-        },
-      });
-    }
-
     status(stock) {
       if (stock === 0) {
         return `Unavailable`;
@@ -121,20 +112,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      imageUrl: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            args: true,
-            msg: "imageUrl tidak bisa kosong",
-          },
-          notNull: {
-            args: true,
-            msg: `imageUrl tidak bisa kosong`,
-          },
-        },
-      },
+      imageUrl: DataTypes.TEXT,
     },
     {
       sequelize,

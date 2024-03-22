@@ -1,5 +1,5 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, fn, col } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Transaction extends Model {
     /**
@@ -12,12 +12,37 @@ module.exports = (sequelize, DataTypes) => {
       Transaction.belongsTo(models.Profile);
       Transaction.belongsTo(models.Book);
     }
+    static penjualan(BookId) {
+      return Transaction.findAll({
+        attributes: [[fn("COUNT", col("id")), "Total"]],
+        where: {
+          BookId,
+        },
+      });
+    }
   }
   Transaction.init(
     {
       ProfileId: DataTypes.INTEGER,
       BookId: DataTypes.INTEGER,
-      quantity: DataTypes.INTEGER,
+      quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Pembelian minimal 1",
+          },
+          notNull: {
+            args: true,
+            msg: `Pembelian minimal 1`,
+          },
+          min: {
+            args: 1,
+            msg: `Pembelian minimal 1`,
+          },
+        },
+      },
     },
     {
       sequelize,

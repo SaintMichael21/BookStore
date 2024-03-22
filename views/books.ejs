@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <style>
+      * {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+      }
+      .navbar-wrapper {
+        display: flex;
+        flex-direction: row;
+      }
+      .table-wrapper {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar-wrapper">
+      <div style="margin-right: 10px">
+        <a href="/"><button style="margin-right: 10px">Home</button></a>
+        <a href="/transaction/<%= idProfile%>"><button>Transaction</button></a>
+      </div>
+      <% if (!id) { %>
+      <div style="display: flex; justify-content: end">
+        <a href="/login"><button>Login</button></a>
+        <a href="/register"><button>Daftar</button></a>
+      </div>
+      <% } else { %>
+      <div style="display: flex; justify-content: end">
+        <a href="/profiles/edit"
+          ><button style="margin-right: 10px; width: fit-content">
+            <%= profile.name %>
+          </button></a
+        >
+        <a href="/logout"><button>Logout</button></a>
+      </div>
+      <% } %>
+    </div>
+    <h1 style="text-align: center">Home</h1>
+    <% if (errors) { %>
+    <p style="color: red; text-align: center"><%= errors %></p>
+    <% } %>
+
+    <!-- Card Start -->
+    <div
+      style="
+        height: fit-content;
+        margin: 20px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      "
+    >
+      <% for(let book of books){%>
+
+      <div
+        style="
+          width: 400px;
+          display: flex;
+          flex-direction: column;
+          margin: 10px auto;
+          border: 1px solid grey;
+          border-radius: 10px;
+          padding: 10px;
+        "
+      >
+        <div style="display: flex; flex-direction: column">
+          <img
+            src="http://localhost:2999/<%= book.imageUrl %>"
+            style="
+              height: 300px;
+              width: 300px;
+              padding: 10px;
+              margin-left: 35px;
+            "
+          />
+          <div style="margin: 30px">
+            <p style="text-align: center"><strong><%= book.title %></strong></p>
+            <p>Author : <%= book.author %></p>
+            <p>Category : <%= book.category %></p>
+            <% if (book.status(book.stock)==="Unavailable") { %>
+            <p style="color: red"><%= book.status(book.stock) %></p>
+            <% } else {%>
+            <p style="color: blue"><%= book.status(book.stock) %></p>
+            <%}%>
+            <p>Price : <%= formatRupiah(book.price) %></p>
+          </div>
+          <a href="/books/<%= book.id %>"
+            ><button
+              style="height: 30px; background: lightgray; border-radius: 10px"
+            >
+              See Detail
+            </button></a
+          >
+        </div>
+      </div>
+      <% } %>
+    </div>
+    <!-- Card End -->
+    <!-- <div class="table-wrapper">
+      <table border="1" style="width: 90%">
+        <tr>
+          <th>Cover Buku</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Price</th>
+          <th>Action</th>
+        </tr>
+        <% for( let book of books ) { %>
+        <tr>
+          <td><img src="http://localhost:2999/<%= book.imageUrl %>" /></td>
+          <td><%= book.title %></td>
+          <td><%= book.author %></td>
+          <td><%= book.category %></td>
+          <% if (book.status(book.stock)==="Unavailable") { %>
+          <td style="color: red"><%= book.status(book.stock) %></td>
+          <% } else {%>
+          <td style="color: blue"><%= book.status(book.stock) %></td>
+          <%}%>
+          <td><%= formatRupiah(book.price) %></td>
+          <td>
+            <a href="/books/<%= book.id %>"><button>See Detail</button></a>
+          </td>
+        </tr>
+        <% } %>
+      </table>
+    </div> -->
+  </body>
+</html>

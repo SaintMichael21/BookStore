@@ -26,14 +26,19 @@ class ControllerLogin {
         if (isValidPassword) {
           req.session.userId = user.id; //set session di controller login
           req.session.role = user.role;
-          return res.redirect("/");
+
+          if(user.role === "admin"){
+            res.redirect("/admin/books");
+          }else{
+            res.redirect("/");
+          }
         } else {
           const error = `Invalid Password or Email`;
-          return res.redirect(`/login?error=${error}`);
+          res.redirect(`/login?error=${error}`);
         }
       } else {
         const error = `Invalid Password or Email`;
-        return res.redirect(`/login?error=${error}`);
+        res.redirect(`/login?error=${error}`);
       }
     } catch (error) {
       console.log(error);
