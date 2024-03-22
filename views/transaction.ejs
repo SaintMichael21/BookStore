@@ -10,20 +10,38 @@
       <a href="/"><button>Home</button></a>
       <a href="/logout"><button>Logout</button></a>
     </div>
-    <h1>Transaction</h1>
-    <table border="1">
-      <tr>
-        <th>Judul</th>
-        <th>Quantity</th>
-        <th>Date</th>
-      </tr>
-      <% for( let data of datas ) { %>
-      <tr>
-        <th><%= data.Book.title %></th>
-        <th><%= data.quantity %></th>
-        <th><%= data.createdAt.toISOString().slice(0,10) %></th>
-      </tr>
-      <% } %>
-    </table>
+    <h1 style="text-align: center">Transaction</h1>
+    <div style="display: flex; justify-content: center">
+      <table style="text-align: center; width: 90%">
+        <tr style="background: skyblue">
+          <th style="padding: 10px; border-radius: 10px">Judul</th>
+          <th style="border-radius: 10px">Gambar</th>
+          <th style="border-radius: 10px">Quantity</th>
+          <th style="border-radius: 10px">Date</th>
+          <th style="border-radius: 10px">Alamat</th>
+          <th style="border-radius: 10px">Nomor Handphone</th>
+          <th style="border-radius: 10px">Total Price</th>
+        </tr>
+        <% for( let data of datas ) { %>
+        <tr style="background: rgb(195, 233, 195)">
+          <td style="border-radius: 10px"><%= data.Book.title %></td>
+          <td style="border-radius: 10px; background: white">
+            <img src="http://localhost:2999/<%= data.Book.imageUrl %>" alt="" />
+          </td>
+          <td style="border-radius: 10px">
+            <strong><%= data.quantity %></strong>
+          </td>
+          <td style="border-radius: 10px">
+            <%= data.createdAt.toISOString().slice(0,10) %>
+          </td>
+          <td style="border-radius: 10px"><%= data.Profile.address %></td>
+          <td style="border-radius: 10px"><%= data.Profile.phoneNumber %></td>
+          <td style="border-radius: 10px">
+            <%= formatRupiah(data.quantity * data.Book.price) %>
+          </td>
+        </tr>
+        <% } %>
+      </table>
+    </div>
   </body>
 </html>

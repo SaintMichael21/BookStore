@@ -18,16 +18,26 @@ class ControllerBooks {
           },
         });
       }
-
+      let { errors } = req.query;
       //untuk baca buku
-      const data = await Book.findAll();
-      const idProfile = id.Profile.id;
+      const data = await Book.findAll({
+        order: [["id", "ASC"]],
+      });
       if (!id) {
         res.redirect("/login");
       } else if (!id.Profile) {
         res.redirect("/profiles");
       } else {
-        res.render("books", { id, books: data, formatRupiah, idProfile });
+        const idProfile = id.Profile.id;
+        const profile = id.Profile;
+        res.render("books", {
+          id,
+          books: data,
+          formatRupiah,
+          idProfile,
+          errors,
+          profile,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -81,8 +91,8 @@ class ControllerBooks {
           model: Profile,
         },
       });
-      console.log(id.Profile);
-      res.render("profilesEdit", { errors, profile: id.Profile });
+
+      res.render("profilesEdit", { errors, profile: id.Profile, user: id });
     } catch (error) {
       console.log(error);
       res.send(error);
@@ -119,10 +129,14 @@ class ControllerBooks {
       let data = await Book.findByPk(id);
       let penjualan = await Transaction.penjualan(id);
       let total = penjualan[0].dataValues.Total;
-      res.render("detailBook", { Book: data, total, formatRupiah });
+      let { errors } = req.query;
+      if (errors) {
+        errors = errors.split(",");
+      }
+      res.render("detailBook", { Book: data, total, formatRupiah, errors });
     } catch (error) {
-      console.log(error);
-      res.send(error);
+      console.log(error, 125);
+      res.send(error, 125);
     }
   }
 
@@ -142,6 +156,18 @@ class ControllerBooks {
 
       const ProfileId = profile[0].id;
 
+      let buku = await Book.findAll({
+        where: {
+          id,
+        },
+      });
+      if (buku[0].stock - quantity < 0) {
+        throw {
+          name: `InvalidStock`,
+          errors: `Belinya kebanyakan stoknya ga nyampe bang`,
+        };
+      }
+
       await Transaction.create({ ProfileId, BookId: id, quantity });
       await Book.decrement(
         {
@@ -154,13 +180,28 @@ class ControllerBooks {
         }
       );
       res.redirect(`/`);
-    } catch (error) {}
+    } catch (error) {
+      if (error.name === `SequelizeValidationError`) {
+        const { id } = req.params;
+        let msg = error.errors.map((err) => {
+          return err.message;
+        });
+        res.redirect(`/books/${id}?errors=${msg}`);
+      } else if (error.name === `InvalidStock`) {
+        const { id } = req.params;
+        res.redirect(`/books/${id}?errors=${error.errors}`);
+      } else {
+        console.log(error);
+        res.send(error);
+      }
+    }
   }
 
   static async renderTransactions(req, res) {
     try {
       const { id } = req.params;
       let datas = await Transaction.findAll({
+        order: [["createdAt", "DESC"]],
         include: [
           {
             model: Book,
@@ -173,9 +214,15 @@ class ControllerBooks {
           },
         ],
       });
-      const profile = datas[0].Profile;
-      const book = datas[0].Book;
-      res.render("transaction", { book, profile, datas });
+
+      if (datas.length < 1) {
+        const errors = `Transaksi Kosong`;
+        res.redirect(`/books?errors=${errors}`);
+      } else {
+        const profile = datas[0].Profile;
+        const book = datas[0].Book;
+        res.render("transaction", { book, profile, datas, formatRupiah });
+      }
     } catch (error) {
       console.log(error);
       res.send(error);

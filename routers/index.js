@@ -24,14 +24,22 @@ function isLogin(req, res, next) {
     next();
   } else if (req.session.role === "admin") {
     res.redirect(`/admin`);
-  } else if (req.session.role === "buyer") {
-    res.redirect(`/`);
+  } else if (req.session.role === "member") {
+    res.redirect(`/books`);
   }
 }
 
 function isAdmin(req, res, next) {
   if (req.session.role !== "admin") {
     res.redirect("/login");
+  } else {
+    next();
+  }
+}
+
+function isMember(req, res, next) {
+  if (req.session.role !== "member") {
+    res.redirect("/logout");
   } else {
     next();
   }
@@ -58,25 +66,25 @@ router.get("/", (req, res) => {
 
 //books
 //default
-router.get("/books", ControllerBooks.renderBooks);
+router.get("/books", isMember, ControllerBooks.renderBooks);
 //get profile
-router.get("/profiles", ControllerBooks.renderCreateProfile);
+router.get("/profiles", isMember, ControllerBooks.renderCreateProfile);
 
 //get profile
-router.post("/profiles", ControllerBooks.handleCreateProfile);
+router.post("/profiles", isMember, ControllerBooks.handleCreateProfile);
 
 //get profile
-router.get("/profiles/edit", ControllerBooks.renderEditProfile);
+router.get("/profiles/edit", isMember, ControllerBooks.renderEditProfile);
 
 //get profile
-router.post("/profiles/edit/:id", ControllerBooks.handleEditProfile);
+router.post("/profiles/edit/:id", isMember, ControllerBooks.handleEditProfile);
 
 //get seeDetail - halaman detail buku - bisa beli
-router.get("/books/:id", ControllerBooks.renderDetailBook);
-router.post("/books/:id", ControllerBooks.handleDetailBook);
+router.get("/books/:id", isMember, ControllerBooks.renderDetailBook);
+router.post("/books/:id", isMember, ControllerBooks.handleDetailBook);
 
 //get transaction - halaman transaksi user - read doang - id user
-router.get("/transaction/:id", ControllerBooks.renderTransactions);
+router.get("/transaction/:id", isMember, ControllerBooks.renderTransactions);
 
 // Admin
 router.get("/admin/books", isAdmin, ControllerAdmin.renderBooksAdmin);

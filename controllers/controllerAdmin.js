@@ -12,13 +12,14 @@ class ControllerAdmin {
       const { search } = req.query;
 
       let books = await Book.findAll({
+        order: [["id", "ASC"]],
         where: {
           title: {
             [Op.iLike]: `%${search ? search : ""}%`,
           },
         },
       });
-      console.log(books);
+
       res.render("homeAdmin", { books, formatRupiah });
     } catch (error) {
       console.log(error);
@@ -28,7 +29,13 @@ class ControllerAdmin {
 
   static async renderAddBooksAdmin(req, res) {
     try {
-      res.render("addBooksAdmin");
+      let { errors } = req.query;
+
+      if (errors) {
+        errors = errors.split(",");
+      }
+
+      res.render("addBooksAdmin", { errors });
     } catch (error) {
       console.log(error);
       res.send(error);
@@ -37,7 +44,12 @@ class ControllerAdmin {
 
   static async handleAddBooksAdmin(req, res) {
     try {
-      // console.log(req.body);
+      if (!req.file) {
+        throw {
+          name: `SequelizeValidationError`,
+          errors: [{ message: `Gambar invalid` }],
+        };
+      }
       const image = req.file.path;
       const { title, author, category, stock, price, synopsis } = req.body;
       await Book.create({
@@ -51,14 +63,27 @@ class ControllerAdmin {
       });
       res.redirect("/admin/books");
     } catch (error) {
-      console.log(error);
-      res.send(error);
+      if ((error.name = "SequelizeValidationError")) {
+        let msg = error.errors.map((err) => {
+          return err.message;
+        });
+        res.redirect(`/admin/books/add?errors=${msg}`);
+      } else {
+        console.log(error);
+        res.send(error);
+      }
     }
   }
 
   static async renderEditBooksAdmin(req, res) {
     try {
       const id = req.params.id;
+      let { errors } = req.query;
+
+      if (errors) {
+        errors = errors.split(",");
+      }
+
       // console.log(id);
       let bookId = await Book.findAll({
         where: {
@@ -69,7 +94,7 @@ class ControllerAdmin {
       // console.log(artId[0].dataValues, `=============================);
       let book = bookId[0].dataValues;
       // console.log(book);
-      res.render("editBooksAdmin", { book });
+      res.render("editBooksAdmin", { book, errors });
     } catch (error) {
       console.log(error);
       res.send(error);
@@ -79,10 +104,16 @@ class ControllerAdmin {
   static async handleEditBooksAdmin(req, res) {
     try {
       const id = req.params.id;
+      if (!req.file) {
+        throw {
+          name: `SequelizeValidationError`,
+          errors: [{ message: `Gambar invalid` }],
+        };
+      }
+      const imageUrl = req.file.path;
       // console.log(id);
       // console.log(req.body);
-      const { title, author, category, stock, price, synopsis, imageUrl } =
-        req.body;
+      const { title, author, category, stock, price, synopsis } = req.body;
 
       await Book.update(
         {
@@ -103,8 +134,16 @@ class ControllerAdmin {
 
       res.redirect("/admin/books");
     } catch (error) {
-      console.log(error);
-      res.send(error);
+      if ((error.name = "SequelizeValidationError")) {
+        const { id } = req.params;
+        let msg = error.errors.map((err) => {
+          return err.message;
+        });
+        res.redirect(`/admin/books/edit/${id}?errors=${msg}`);
+      } else {
+        console.log(error);
+        res.send(error);
+      }
     }
   }
 

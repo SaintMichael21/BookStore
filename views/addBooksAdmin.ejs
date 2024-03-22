@@ -4,38 +4,63 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Book</title>
+    <style>
+      * {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+      }
+    </style>
   </head>
   <body>
-    <h1>Add Books</h1>
-    <form action="/admin/add" method="post" enctype="multipart/form-data">
-      Title :
-      <br />
-      <input type="text" name="title" />
-      <br />
-      Author :
-      <br />
-      <input type="text" name="author" />
-      <br />
-      Category :
-      <br />
-      <input type="text" name="category" />
-      <br />
-      Stock :
-      <br />
-      <input type="number" name="stock" />
-      <br />
-      Price :
-      <br />
-      <input type="number" name="price" />
-      <br />
-      Synopsis :
-      <br />
-      <textarea name="synopsis" cols="30" rows="10"></textarea>
-      <br />
-      Book Cover :
-      <input type="file" name="imageUrl" />
-      <br />
-      <input type="submit" value="Add Book" />
-    </form>
+    <a href="/admin/books"><button>Home</button></a>
+    <h1 style="text-align: center">Add Books</h1>
+    <div style="display: flex; justify-content: center; margin-top: 45px">
+      <div
+        style="
+          width: 300px;
+          background: #cecece;
+          padding: 5px 20px 20px 20px;
+          border-radius: 10px;
+        "
+      >
+        <% if (errors) { %> <% for( let error of errors ) { %>
+        <p style="text-align: center; color: red"><%= error %></p>
+        <% } %> <% } %>
+        <form action="/admin/add" method="post" enctype="multipart/form-data">
+          <div style="margin-top: 15px; display: flex; flex-direction: column">
+            <label for="title" style="margin-bottom: 5px">Title</label>
+            <input type="text" name="title" />
+          </div>
+          <div style="margin-top: 15px; display: flex; flex-direction: column">
+            <label for="author" style="margin-bottom: 5px">Author</label>
+            <input type="text" name="author" />
+          </div>
+          <div style="margin-top: 15px; display: flex; flex-direction: column">
+            <label for="category" style="margin-bottom: 5px">Category</label>
+            <input type="text" name="category" />
+          </div>
+          <div style="margin-top: 15px; display: flex; flex-direction: column">
+            <label for="stock" style="margin-bottom: 5px">Stock</label>
+            <input type="number" name="stock" />
+          </div>
+          <div style="margin-top: 15px; display: flex; flex-direction: column">
+            <label for="price" style="margin-bottom: 5px">Price</label>
+            <input type="number" name="price" />
+          </div>
+          <div style="margin-top: 15px; display: flex; flex-direction: column">
+            <label for="synopsis" style="margin-bottom: 5px">Synopsis</label>
+            <textarea name="synopsis" cols="30" rows="10"></textarea>
+          </div>
+          <div style="margin-top: 15px; display: flex; flex-direction: column">
+            <label for="imageUrl" style="margin-bottom: 5px">Book Cover</label>
+            <input type="file" name="imageUrl" />
+          </div>
+          <div style="margin-top: 10px; display: flex; flex-direction: column">
+            <input type="submit" value="Add Book" />
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

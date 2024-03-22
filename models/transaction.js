@@ -25,7 +25,24 @@ module.exports = (sequelize, DataTypes) => {
     {
       ProfileId: DataTypes.INTEGER,
       BookId: DataTypes.INTEGER,
-      quantity: DataTypes.INTEGER,
+      quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "Pembelian minimal 1",
+          },
+          notNull: {
+            args: true,
+            msg: `Pembelian minimal 1`,
+          },
+          min: {
+            args: 1,
+            msg: `Pembelian minimal 1`,
+          },
+        },
+      },
     },
     {
       sequelize,

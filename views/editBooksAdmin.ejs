@@ -4,44 +4,78 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit Book</title>
+    <style>
+      * {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+      }
+      .wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 45px;
+      }
+      .second-wrapper {
+        width: 300px;
+        background: #cecece;
+        padding: 5px 20px 20px 20px;
+        border-radius: 10px;
+      }
+      form .wrapper-label {
+        margin-top: 15px;
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
   </head>
   <body>
-    <h1>Edit Books</h1>
-    <form
-      action="/admin/books/edit/<%= book.id %>"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      Title :
-      <br />
-      <input type="text" name="title" value="<%= book.title %>" />
-      <br />
-      Author :
-      <br />
-      <input type="text" name="author" value="<%= book.author %>" />
-      <br />
-      Category :
-      <br />
-      <input type="text" name="category" value="<%= book.category %>" />
-      <br />
-      Stock :
-      <br />
-      <input type="text" name="stock" value="<%= book.stock %>" />
-      <br />
-      Price :
-      <br />
-      <input type="number" name="price" value="<%= book.price %>" />
-      <br />
-      Synopsis :
-      <br />
-      <textarea name="synopsis" cols="30" rows="10">
+    <a href="/admin/books"><button>Home</button></a>
+    <h1 style="text-align: center">Edit Book</h1>
+    <div class="wrapper">
+      <div class="second-wrapper">
+        <% if (errors) { %> <% for( let error of errors ) { %>
+        <p style="text-align: center; color: red"><%= error %></p>
+        <% } %> <% } %>
+        <form
+          action="/admin/books/edit/<%= book.id %>"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <div class="wrapper-label">
+            <label for="title" style="margin-bottom: 5px">Title</label>
+            <input type="text" name="title" value="<%= book.title %>" />
+          </div>
+          <div class="wrapper-label">
+            <label for="author" style="margin-bottom: 5px">Author</label>
+            <input type="text" name="author" value="<%= book.author %>" />
+          </div>
+          <div class="wrapper-label">
+            <label for="category" style="margin-bottom: 5px">Category</label>
+            <input type="text" name="category" value="<%= book.category %>" />
+          </div>
+          <div class="wrapper-label">
+            <label for="stock" style="margin-bottom: 5px">Stock</label>
+            <input type="text" name="stock" value="<%= book.stock %>" />
+          </div>
+          <div class="wrapper-label">
+            <label for="price" style="margin-bottom: 5px">Price</label>
+            <input type="number" name="price" value="<%= book.price %>" />
+          </div>
+          <div class="wrapper-label">
+            <label for="synopsis" style="margin-bottom: 5px">Synopsis</label>
+            <textarea name="synopsis" cols="30" rows="10">
 <%= book.synopsis %></textarea
-      >
-      <br />
-      Book Cover :
-      <input type="text" name="imageUrl" value="<%= book.imageUrl %>" />
-      <br />
-      <input type="submit" value="Edit Book" />
-    </form>
+            >
+          </div>
+          <div class="wrapper-label">
+            <label for="imageUrl" style="margin-bottom: 5px">Book Cover</label>
+            <input type="file" name="imageUrl" value="<%= book.imageUrl %>" />
+          </div>
+          <div class="wrapper-label">
+            <input type="submit" value="Edit Book" />
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
